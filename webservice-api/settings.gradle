@@ -32,4 +32,4 @@ pluginManagement {
 apply from: '../gradle/include-project-dependencies.gradle'
 
 
-rootProject.name = 'webservice'
+rootProject.name = 'webservice-api'
