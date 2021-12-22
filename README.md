@@ -1,2 +1,5 @@
-# wstutorial
-Webservice implementation
+# wsstepbystep
+
+# Branches
+
+* step01: empty project frame
