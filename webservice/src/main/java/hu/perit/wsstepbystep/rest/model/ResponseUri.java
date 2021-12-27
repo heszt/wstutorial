@@ -6,7 +6,7 @@ import lombok.Data;
 //@Data
 public class ResponseUri {
 	
-	@ApiModelProperty(example = "https://localhost:8400/books/12")
+	@ApiModelProperty(example = "https://localhost:8400/books/120")
 	private String location;
 	
 	public ResponseUri location(String location)
