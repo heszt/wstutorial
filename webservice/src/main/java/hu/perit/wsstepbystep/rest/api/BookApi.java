@@ -17,6 +17,7 @@ public interface BookApi {
 	
 final String BASE_URL_BOOKS = "/books";
 	
+	//GetAllBooks
 	@GetMapping(BASE_URL_BOOKS)
 	List<BookDTO> getAllBooks();
 	
