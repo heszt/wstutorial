@@ -2,14 +2,19 @@ plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'application'
+	id "com.github.ManifestClasspath" version "0.1.0-RELEASE"
 }
 apply from: '../gradle/common.gradle'
 
 
 repositories {
+    jcenter()
 	mavenCentral()
     maven {
         url "http://perit.hu/maven"
+    }
+    flatDir {
+        dirs '../gradle/localrepo'
     }
 }
 
@@ -29,7 +34,9 @@ sourceCompatibility = 11
 
 dependencies {
     implementation 'hu.perit.spvitamin:spvitamin-core'
-	
+    implementation 'hu.perit.spvitamin:spvitamin-spring-general'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-server'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
@@ -39,16 +46,25 @@ dependencies {
     // Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // Swagger
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation "io.springfox:springfox-swagger-ui:3.0.0"
 
     // apache.commons
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+
+    // Validation
+    implementation 'javax.validation:validation-api'
+
+	// FasterXML
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // YAML formatting
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 
     // Slf4J
 	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
