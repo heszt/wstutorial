@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,14 +23,14 @@ public class BookController implements BookApi
 	@Override
 	public List<BookDTO> getAllBooks() {
 		
-		try {
-			String alma = null; // NPE-t is kezeli a @ControllerAdvice
-			alma.toLowerCase();
-			
-		} catch(Exception e) {
-			throw new RuntimeException("gebasz van!" ,e);
-			
-		}
+//		try {
+//			String alma = null; // NPE-t is kezeli a @ControllerAdvice
+//			alma.toLowerCase();
+//			
+//		} catch(Exception e) {
+//			throw new RuntimeException("gebasz van!" ,e);
+//			
+//		}
 		
 		List<BookDTO> books = new ArrayList<>();
 		books.add(createBookDTO(12L));
