@@ -11,12 +11,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import hu.perit.wsstepbystep.rest.model.BookDTO;
 import hu.perit.wsstepbystep.rest.model.BookParams;
 import hu.perit.wsstepbystep.rest.model.ResponseUri;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Data
 @RestController
 @Slf4j
+@ControllerAdvice
 public class BookController implements BookApi
 {
 
