@@ -38,6 +38,11 @@ dependencies {
     implementation 'hu.perit.spvitamin:spvitamin-spring-server'
     implementation 'hu.perit.spvitamin:spvitamin-spring-admin'
     implementation 'hu.perit.spvitamin:spvitamin-spring-security'
+    
+   // compile project(':spvitamin-core')
+  //  compile project(':spvitamin-spring-server')
+    //compile project(':spvitamin-spring-admin')
+    //compile project(':spvitamin-spring-security')
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
@@ -49,6 +54,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Swagger

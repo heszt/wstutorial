@@ -5,12 +5,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import hu.perit.spvitamin.core.took.Took;
+import hu.perit.spvitamin.spring.logging.AbstractInterfaceLogger;
+import hu.perit.spvitamin.spring.security.auth.AuthorizationService;
 import hu.perit.wsstepbystep.rest.model.BookDTO;
 import hu.perit.wsstepbystep.rest.model.BookParams;
 import hu.perit.wsstepbystep.rest.model.ResponseUri;
+
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -19,20 +26,35 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @ControllerAdvice
-public class BookController implements BookApi
+public class BookController extends AbstractInterfaceLogger implements BookApi
 {
+	private final AuthorizationService authorizationService;
+
+	protected BookController(AuthorizationService authorizationService, HttpServletRequest httpRequest) {
+								//konstruktors inject, jobb mint az autowired, mert unit-testelhető
+		super(httpRequest);
+		this.authorizationService = authorizationService;
+
+	}
 
 	@Override
 	public List<BookDTO> getAllBooks() {
 		
-//		try {
-//			String alma = null; // NPE-t is kezeli a @ControllerAdvice
-//			alma.toLowerCase();
-//			
-//		} catch(Exception e) {
-//			throw new RuntimeException("gebasz van!" ,e);
-//			
-//		}
+		UserDetails user = this.authorizationService.getAuthenticatedUser();
+		try (Took took = new Took()){
+			
+			this.traceIn("processId", user.getUsername(), getMyMethodName(), 1, ""); //1. param processId
+			
+		} 
+		catch (Exception e) {
+			
+			this.traceOut(null, user.getUsername(),getMyMethodName(),1, e);	
+			throw e;
+		}
+	
+		
+		
+		
 		
 		List<BookDTO> books = new ArrayList<>();
 		books.add(createBookDTO(12L));
@@ -89,6 +111,12 @@ public class BookController implements BookApi
 		bookDTO.setDateIssued(LocalDate.of(2021, 12, 24));
 		
 		return bookDTO;
+	}
+
+	@Override
+	protected String getSubsystemName() {
+		// TODO Auto-generated method stub
+		return "webstepbystep";
 	}
 	
 	
