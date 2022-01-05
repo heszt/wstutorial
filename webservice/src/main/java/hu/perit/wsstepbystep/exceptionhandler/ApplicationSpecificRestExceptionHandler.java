@@ -18,7 +18,6 @@ package hu.perit.wsstepbystep.exceptionhandler;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -44,7 +43,7 @@ public class ApplicationSpecificRestExceptionHandler extends RestResponseEntityE
 {
 	
 
-     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ApplicationSpecificRestExceptionHandler.class);
+     //private static final Logger log = org.slf4j.LoggerFactory.getLogger(ApplicationSpecificRestExceptionHandler.class);
 
 
     @ExceptionHandler({Exception.class})

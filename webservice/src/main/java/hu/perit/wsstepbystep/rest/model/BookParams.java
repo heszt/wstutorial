@@ -13,36 +13,11 @@ public class BookParams {
 	private Integer pages;
 	private LocalDate dateIssued;
 	
-	public String getTitle() {
-		return title;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	public Integer getPages() {
-		return pages;
-	}
-	public void setPages(Integer pages) {
-		this.pages = pages;
-	}
-	public LocalDate getDateIssued() {
-		return dateIssued;
-	}
-	public void setDateIssued(LocalDate dateIssued) {
-		this.dateIssued = dateIssued;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	
 	@Override
 	public String toString() {
 		return "BookParams [title=" + title + ", author=" + author + ", pages=" + pages + ", dateIssued=" + dateIssued
 				+ "]";
 	}
 	
-	
-
 }

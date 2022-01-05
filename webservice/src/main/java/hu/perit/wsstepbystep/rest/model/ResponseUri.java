@@ -3,7 +3,7 @@ package hu.perit.wsstepbystep.rest.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-//@Data
+@Data
 public class ResponseUri {
 	
 	@ApiModelProperty(example = "https://localhost:8400/books/120")
@@ -14,15 +14,5 @@ public class ResponseUri {
 		this.location = location;
 		return this;
 	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	
-	
 
 }
