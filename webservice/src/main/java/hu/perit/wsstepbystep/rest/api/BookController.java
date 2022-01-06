@@ -89,7 +89,7 @@ public class BookController extends AbstractInterfaceLogger implements BookApi
     {
         log.debug(String.format("createBook(%s)", bookParams.toString()));
 
-        long newBookId = 120;
+        long newBookId = bookParams.getPages();
 
         URI location = ServletUriComponentsBuilder //
             .fromCurrentRequest() //

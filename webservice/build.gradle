@@ -32,12 +32,9 @@ sourceCompatibility = 11
 
 dependencies {
     implementation 'hu.perit.spvitamin:spvitamin-core'
-    // https://mvnrepository.com/artifact/hu.perit.spvitamin/spvitamin-spring-general
 	implementation group: 'hu.perit.spvitamin', name: 'spvitamin-spring-general'
-    
     implementation 'hu.perit.spvitamin:spvitamin-spring-server'
     implementation 'hu.perit.spvitamin:spvitamin-spring-admin'
-    // https://mvnrepository.com/artifact/hu.perit.spvitamin/spvitamin-spring-security
 	implementation group: 'hu.perit.spvitamin', name: 'spvitamin-spring-security'
     
 
@@ -51,6 +48,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Swagger

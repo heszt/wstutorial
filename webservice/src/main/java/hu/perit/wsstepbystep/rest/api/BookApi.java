@@ -2,6 +2,8 @@ package hu.perit.wsstepbystep.rest.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +58,7 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.CREATED)
-	ResponseUri createBook(@RequestBody BookParams bookParams);		//konvenció, h a létrehozott cucc elérési útvonalát adja vissza create-nél!
+	ResponseUri createBook(@Valid @RequestBody BookParams bookParams);		//validációs annot.
 	
 	//UpdateBook
 	@PutMapping(BASE_URL_BOOKS + "/{id}")
@@ -68,7 +70,7 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.OK)
-	void updateBook(@PathVariable("id") Long id, @RequestBody BookParams bookParams);
+	void updateBook(@PathVariable("id") Long id, @Valid @RequestBody BookParams bookParams);
 	
 	//DeleteBook
 	@DeleteMapping(BASE_URL_BOOKS + "/{id}")
