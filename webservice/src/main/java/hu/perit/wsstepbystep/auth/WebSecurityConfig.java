@@ -115,21 +115,38 @@ public class WebSecurityConfig
         protected void configure(HttpSecurity http) throws Exception
         {
         	
-        	log.info("call configure()" );
+        	log.info("call configure() Order1" );
         	
             SimpleHttpSecurityBuilder.newInstance(http) //
-                	.scope(BookApi.BASE_URL_BOOKS + "/**",
-                		   AuthApi.BASE_URL_AUTHENTICATE + "/**") //
+                	.scope(AuthApi.BASE_URL_AUTHENTICATE + "/**") //
+                	.basicAuth();
+
+        }
+    }
+    
+    /*
+     * ============== Order(2) =========================================================================================
+     */
+    @Configuration
+    @Order(2)
+    public static class Order2 extends WebSecurityConfigurerAdapter
+    {
+    	@Override
+        protected void configure(HttpSecurity http) throws Exception
+        {
+        	
+        	log.info("call configure() Order2" );
+        	
+            SimpleHttpSecurityBuilder.newInstance(http) //
+                	.scope(BookApi.BASE_URL_BOOKS + "/**") //
                     .authorizeRequests() //
-                    .antMatchers(AuthApi.BASE_URL_AUTHENTICATE + "/**").fullyAuthenticated()
                     .antMatchers(HttpMethod.GET, BookApi.BASE_URL_BOOKS + "/**").hasAuthority(Permissions.BOOK_READ_ACCESS.name()) //
                     .antMatchers(BookApi.BASE_URL_BOOKS + "/**").hasAuthority(Permissions.BOOK_WRITE_ACCESS.name())
                     .anyRequest().denyAll();
 
-            SimpleHttpSecurityBuilder.afterAuthorization(http).basicAuth();
+            SimpleHttpSecurityBuilder.afterAuthorization(http).jwtAuth();	//Token auth!
 
-            http.addFilterAfter(new Role2PermissionMapperFilter(), SessionManagementFilter.class);  //step07-ben
-          //  http.addFilterAfter(new PostAuthenticationFilter(), SessionManagementFilter.class);  //videóban  forbidden adminnal
+            http.addFilterAfter(new Role2PermissionMapperFilter(), SessionManagementFilter.class);  
         }
     }
 }
