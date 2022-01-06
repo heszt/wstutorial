@@ -19,6 +19,7 @@ import hu.perit.wsstepbystep.rest.model.ResponseUri;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
 public interface BookApi {
 	
@@ -26,7 +27,7 @@ final String BASE_URL_BOOKS = "/books";
 	
 	//GetAllBooks
 	@GetMapping(BASE_URL_BOOKS)
-	@ApiOperation(value = "getAllBooks() - Retrieves all books")
+	@ApiOperation(value = "getAllBooks() - Retrieves all books", authorizations = {@Authorization(value = "Bearer")})		//swagger GUI-ról is végrehajtható így auth. után
     @ApiResponses(value = { //
         @ApiResponse(code = 200, message = "Success"), //
         @ApiResponse(code = 401, message = "Invalid credentials"), //
@@ -37,7 +38,7 @@ final String BASE_URL_BOOKS = "/books";
 	
 	//Get Book By Id
 	@GetMapping(BASE_URL_BOOKS + "/{id}")
-	@ApiOperation(value = "getBookById() - Retrieves a book by ID")
+	@ApiOperation(value = "getBookById() - Retrieves a book by ID", authorizations = {@Authorization(value = "Bearer")})
     @ApiResponses(value = { //
         @ApiResponse(code = 200, message = "Success"), //
         @ApiResponse(code = 401, message = "Invalid credentials"), //
@@ -49,7 +50,7 @@ final String BASE_URL_BOOKS = "/books";
 	
 	//CreateBook
 	@PostMapping(BASE_URL_BOOKS)
-	@ApiOperation(value = "createBook() - creates a new book")
+	@ApiOperation(value = "createBook() - creates a new book", authorizations = {@Authorization(value = "Bearer")} )
     @ApiResponses(value = { //
         @ApiResponse(code = 201, message = "Created"), //
         @ApiResponse(code = 400, message = "Bad request"), //
@@ -62,7 +63,7 @@ final String BASE_URL_BOOKS = "/books";
 	
 	//UpdateBook
 	@PutMapping(BASE_URL_BOOKS + "/{id}")
-	@ApiOperation(value = "updateBook() - Updates a book by ID")
+	@ApiOperation(value = "updateBook() - Updates a book by ID", authorizations = {@Authorization(value = "Bearer")})
     @ApiResponses(value = { //
         @ApiResponse(code = 200, message = "Success"), //
         @ApiResponse(code = 401, message = "Invalid credentials"), //
@@ -74,7 +75,7 @@ final String BASE_URL_BOOKS = "/books";
 	
 	//DeleteBook
 	@DeleteMapping(BASE_URL_BOOKS + "/{id}")
-	@ApiOperation(value = "deleteBook() - removes a book by ID")
+	@ApiOperation(value = "deleteBook() - removes a book by ID", authorizations = {@Authorization(value = "Bearer")})
     @ApiResponses(value = { //
         @ApiResponse(code = 200, message = "Success"), //
         @ApiResponse(code = 400, message = "Bad request"), //
