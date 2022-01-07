@@ -1,0 +1,24 @@
+#docker compose for local development
+
+version: '3.6'
+
+networks:
+    back-tier-net:
+        driver: bridge
+
+services: 
+  
+    #####################################################################################                 
+    webservice:
+    #####################################################################################                 
+        container_name: webservice
+        image: webservice
+        environment:
+              - JAVA_OPTS=
+              - WEBSERVICE_OPTS=-Dspring.profiles.active=default
+        ports:
+            - "8080:8080"
+        networks: 
+            - back-tier-net
+        hostname: 'webservice'
+

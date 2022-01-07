@@ -5,6 +5,7 @@ plugins {
 	id "com.github.ManifestClasspath" version "0.1.0-RELEASE"
 }
 apply from: '../gradle/common.gradle'
+apply from: '../gradle/docker.gradle'
 
 
 repositories {
@@ -31,11 +32,12 @@ application {
 sourceCompatibility = 11
 
 dependencies {
-    implementation 'hu.perit.spvitamin:spvitamin-core'
-	implementation group: 'hu.perit.spvitamin', name: 'spvitamin-spring-general'
-    implementation 'hu.perit.spvitamin:spvitamin-spring-server'
-    implementation 'hu.perit.spvitamin:spvitamin-spring-admin'
-	implementation group: 'hu.perit.spvitamin', name: 'spvitamin-spring-security'
+    implementation 'hu.perit.spvitamin:spvitamin-core:1.3.5-RELEASE' 
+
+    implementation 'hu.perit.spvitamin:spvitamin-spring-server:1.3.5-RELEASE'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-admin:1.3.5-RELEASE'
+    implementation 'hu.perit.spvitamin:spvitamin-spring-security:1.3.5-RELEASE'
+	
     
 
     // Lombok
@@ -50,7 +52,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// JJWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
     // Swagger
     implementation "io.springfox:springfox-boot-starter:3.0.0"
@@ -71,6 +74,8 @@ dependencies {
 
     // Slf4J
 	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 
@@ -83,4 +88,8 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+dockerImage() {
+	dependsOn 'dockerBackendImage'
 }
