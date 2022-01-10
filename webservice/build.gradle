@@ -21,6 +21,11 @@ ext {
     set('spvitaminVersion', '1.3.5-RELEASE')
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "hu.perit.spvitamin:spvitamin-dependencies:${spvitaminVersion}"
+    }
+}
 
 application {
     mainClassName = 'hu.perit.wsstepbystep.WsstepbystepApplication'
@@ -79,11 +84,7 @@ dependencies {
 }
 
 
-dependencyManagement {
-    imports {
-        mavenBom "hu.perit.spvitamin:spvitamin-dependencies:${spvitaminVersion}"
-    }
-}
+
 
 
 test {
