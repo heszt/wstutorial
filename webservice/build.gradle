@@ -11,6 +11,9 @@ apply from: '../gradle/docker.gradle'
 repositories {
     jcenter()
 	mavenCentral()
+	maven {
+        url "http://perit.hu/maven"
+    }
     
     flatDir {
         dirs '../gradle/localrepo'
@@ -19,11 +22,15 @@ repositories {
 
 ext {
     set('spvitaminVersion', '1.3.5-RELEASE')
+    set('springCloudVersion', "2020.0.5")
+    
 }
 
 dependencyManagement {
     imports {
         mavenBom "hu.perit.spvitamin:spvitamin-dependencies:${spvitaminVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        
     }
 }
 
@@ -38,18 +45,29 @@ sourceCompatibility = 11
 
 dependencies {
     implementation 'hu.perit.spvitamin:spvitamin-core:1.3.5-RELEASE' 
+    
+    // https://mvnrepository.com/artifact/hu.perit.spvitamin/spvitamin-spring-general  kell a cloud-feign-hez
+	//implementation 'hu.perit.spvitamin:spvitamin-spring-general:1.3.5-RELEASE'
+    
 
     implementation 'hu.perit.spvitamin:spvitamin-spring-server:1.3.5-RELEASE'
     implementation 'hu.perit.spvitamin:spvitamin-spring-admin:1.3.5-RELEASE'
     implementation 'hu.perit.spvitamin:spvitamin-spring-security:1.3.5-RELEASE'
+    // https://mvnrepository.com/artifact/hu.perit.spvitamin/spvitamin-spring-cloud-feign
+    implementation 'hu.perit.spvitamin:spvitamin-spring-cloud-feign:1.3.5-RELEASE'
+
+	compile project(':webservice-api')
+    //implementation 'hu.perit.spvitamin:webservice-api'
 	
     
 
     // Lombok
-    compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
+    integtestCompileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    integtestAnnotationProcessor 'org.projectlombok:lombok'
 
     // Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -79,12 +97,24 @@ dependencies {
 
     // Slf4J
 	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// OpenFeign
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
+	
+    //implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    
+
+    // Test framework
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    compile group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.7.0'
 
 }
-
-
-
 
 
 test {
