@@ -3,7 +3,7 @@ package hu.perit.wsstepbystep.businesslogic.bookstore;
 
 import hu.perit.spvitamin.core.typehelpers.LongUtils;
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
-import hu.perit.webservice.rest.model.AuthorDTO;
+import hu.perit.webservice.rest.model.AuthorWithBooksDTO;
 import hu.perit.webservice.rest.model.BookDTO;
 import hu.perit.webservice.rest.model.BookParams;
 import hu.perit.wsstepbystep.businesslogic.api.BookstoreService;
@@ -76,26 +76,26 @@ public class BookstoreServiceImpl implements BookstoreService
     @Transactional
     public long createBook(BookParams bookParams)
     {
-        return createOrUpdateBookEntity(null, bookParams);
+        return createOrUpdateBookEntity(bookParams, null);
     }
 
 
-    public long createOrUpdateBookEntity(BookEntity bookEntityInput, BookParams bookParams)
+    public long createOrUpdateBookEntity(BookParams bookParams, BookEntity destinationBookEntity)
     {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());	//emiatt a nullával nem írja felül a mapper a célt update-nél
 
         BookEntity bookEntity = null;
-        if (bookEntityInput == null)
+        if (destinationBookEntity != null)
         {
-            // Creating a new BookEntity object
-            bookEntity = modelMapper.map(bookParams, BookEntity.class);
+            // Mapping fields of bookParams into destinationBookEntity
+            bookEntity = destinationBookEntity;
+            modelMapper.map(bookParams, bookEntity);
         }
         else
         {
-            // Mapping fields of bookParams into bookEntity
-            bookEntity = bookEntityInput;
-            modelMapper.map(bookParams, bookEntity);
+            // Creating a new BookEntity object
+            bookEntity = modelMapper.map(bookParams, BookEntity.class);
         }
 
         // Authors
@@ -148,7 +148,7 @@ public class BookstoreServiceImpl implements BookstoreService
             throw new ResourceNotFoundException(String.format("Book with id %d cannot be found!", id));
         }
 
-        createOrUpdateBookEntity(byId.get(), bookParams);
+        createOrUpdateBookEntity(bookParams, byId.get());
     }
 
 
@@ -172,7 +172,7 @@ public class BookstoreServiceImpl implements BookstoreService
     // getAllAuthors()
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public List<AuthorDTO> getAllAuthors()
+    public List<AuthorWithBooksDTO> getAllAuthors()
     {
         List<AuthorEntity> authorEntities = this.authorRepo.findAll();
         return authorEntities.stream() //
@@ -181,10 +181,10 @@ public class BookstoreServiceImpl implements BookstoreService
     }
 
 
-    private AuthorDTO mapAuthorEntity2DTO(AuthorEntity be)
+    private AuthorWithBooksDTO mapAuthorEntity2DTO(AuthorEntity be)
     {
         ModelMapper modelMapper = new ModelMapper();
 
-        return modelMapper.map(be, AuthorDTO.class);
+        return modelMapper.map(be, AuthorWithBooksDTO.class);
     }
 }

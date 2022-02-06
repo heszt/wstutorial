@@ -32,56 +32,52 @@ import hu.perit.webservice.rest.model.ResponseUri;
  * @author Peter Nagy
  */
 
-public interface WebserviceClient			//ifc, nincs implementációja, a feign megcsinálja az annotációkkal a hívást @RequestLine, @Headers stb.
+public interface WebserviceClient // ifc, nincs implementációja, a feign megcsinálja az annotációkkal a hívást
+									// @RequestLine, @Headers stb.
 {
 
-    String BASE_URL_AUTHENTICATE = "/authenticate";
-    String BASE_URL_BOOKS = "/books";
+	String BASE_URL_AUTHENTICATE = "/authenticate";
+	String BASE_URL_BOOKS = "/books";
 
-    //------------------------------------------------------------------------------------------------------------------
-    // authenticate()
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestLine("GET " + BASE_URL_AUTHENTICATE)
-    @Headers({"Content-Type: application/json", "processID: {processID}"})
-    AuthorizationToken authenticate(@Param("processID") String processID);
+	// ------------------------------------------------------------------------------------------------------------------
+	// authenticate()
+	// ------------------------------------------------------------------------------------------------------------------
+	@RequestLine("GET " + BASE_URL_AUTHENTICATE)
+	@Headers({ "Content-Type: application/json", "processID: {processID}" })
+	AuthorizationToken authenticate(@Param("processID") String processID);
 
+	// ------------------------------------------------------------------------------------------------------------------
+	// getAllBooks()
+	// ------------------------------------------------------------------------------------------------------------------
+	@RequestLine("GET " + BASE_URL_BOOKS)
+	@Headers({ "Content-Type: application/json" })
+	List<BookDTO> getAllBooks();
 
-    //------------------------------------------------------------------------------------------------------------------
-    // getAllBooks()
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestLine("GET " + BASE_URL_BOOKS)
-    @Headers({"Content-Type: application/json"})
-    List<BookDTO> getAllBooks();
+	// ------------------------------------------------------------------------------------------------------------------
+	// getBookById
+	// ------------------------------------------------------------------------------------------------------------------
+	@RequestLine("GET " + BASE_URL_BOOKS + "/{id}")
+	@Headers({ "Content-Type: application/json" })
+	BookDTO getBookById(@Param("id") Long id);
 
+	// ------------------------------------------------------------------------------------------------------------------
+	// createBook
+	// ------------------------------------------------------------------------------------------------------------------
+	@RequestLine("POST " + BASE_URL_BOOKS)
+	@Headers({ "Content-Type: application/json" })
+	ResponseUri createBook(@RequestBody BookParams bookParams);
 
-    //------------------------------------------------------------------------------------------------------------------
-    // getBookById
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestLine("GET " + BASE_URL_BOOKS + "/{id}")
-    @Headers({"Content-Type: application/json"})
-    BookDTO getBookById(@Param("id") Long id);
+	// ------------------------------------------------------------------------------------------------------------------
+	// updateBook
+	// ------------------------------------------------------------------------------------------------------------------
+	@RequestLine("PUT " + BASE_URL_BOOKS + "/{id}")
+	@Headers({ "Content-Type: application/json" })
+	void updateBook(@Param("id") long userId, @RequestBody BookParams bookParams);
 
-
-    //------------------------------------------------------------------------------------------------------------------
-    // createBook
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestLine("POST " + BASE_URL_BOOKS)
-    @Headers({"Content-Type: application/json"})
-    ResponseUri createBook(@RequestBody BookParams bookParams);
-
-
-    //------------------------------------------------------------------------------------------------------------------
-    // updateBook
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestLine("PUT " + BASE_URL_BOOKS + "/{id}")
-    @Headers({"Content-Type: application/json"})
-    void updateBook(@Param("id") long userId, @RequestBody BookParams bookParams);
-
-
-    //------------------------------------------------------------------------------------------------------------------
-    // deleteBook
-    //------------------------------------------------------------------------------------------------------------------
-    @RequestLine("DELETE " + BASE_URL_BOOKS + "/{id}")
-    @Headers({"Content-Type: application/json"})
-    void deleteBook(@Param("id") long userId);
+	// ------------------------------------------------------------------------------------------------------------------
+	// deleteBook
+	// ------------------------------------------------------------------------------------------------------------------
+	@RequestLine("DELETE " + BASE_URL_BOOKS + "/{id}")
+	@Headers({ "Content-Type: application/json" })
+	void deleteBook(@Param("id") long userId);
 }

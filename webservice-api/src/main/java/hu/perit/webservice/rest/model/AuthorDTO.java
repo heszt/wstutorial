@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthorDTO
+public class AuthorDTO // extends Auditable
 {
     private Long id;
     private String name;
-   // private Long recVersion;
+ //   private Long recVersion;
 }

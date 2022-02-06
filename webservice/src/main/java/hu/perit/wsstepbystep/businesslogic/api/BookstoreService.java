@@ -3,7 +3,7 @@ package hu.perit.wsstepbystep.businesslogic.api;
 import java.util.List;
 
 import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
-import hu.perit.webservice.rest.model.AuthorDTO;
+import hu.perit.webservice.rest.model.AuthorWithBooksDTO;
 import hu.perit.webservice.rest.model.BookDTO;
 import hu.perit.webservice.rest.model.BookParams;
 
@@ -19,5 +19,5 @@ public interface BookstoreService
 
     void deleteBook(Long id) throws ResourceNotFoundException;
 
-    List<AuthorDTO> getAllAuthors();
+    List<AuthorWithBooksDTO> getAllAuthors();
 }
