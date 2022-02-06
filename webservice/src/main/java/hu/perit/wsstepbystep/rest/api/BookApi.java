@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import hu.perit.wsstepbystep.rest.model.BookDTO;
-import hu.perit.wsstepbystep.rest.model.BookParams;
-import hu.perit.wsstepbystep.rest.model.ResponseUri;
+import hu.perit.spvitamin.spring.exception.ResourceNotFoundException;
+import hu.perit.spvitamin.spring.logging.EventLogId;
+import hu.perit.webservice.rest.model.BookDTO;
+import hu.perit.webservice.rest.model.BookParams;
+import hu.perit.webservice.rest.model.ResponseUri;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -34,6 +36,7 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.OK)
+    @EventLogId(eventId = 1)
 	List<BookDTO> getAllBooks();
 	
 	//Get Book By Id
@@ -46,7 +49,10 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.OK)
-	BookDTO getBookById(@PathVariable("id") Long id);
+	@EventLogId(eventId = 2)
+    BookDTO getBookById(@PathVariable("id") Long id) throws ResourceNotFoundException;
+	
+	
 	
 	//CreateBook
 	@PostMapping(BASE_URL_BOOKS)
@@ -59,7 +65,9 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.CREATED)
-	ResponseUri createBook(@Valid @RequestBody BookParams bookParams);		//validációs annot.
+	@EventLogId(eventId = 3)
+    ResponseUri createBook(@Valid @RequestBody BookParams bookParams);
+
 	
 	//UpdateBook
 	@PutMapping(BASE_URL_BOOKS + "/{id}")
@@ -71,7 +79,9 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.OK)
-	void updateBook(@PathVariable("id") Long id, @Valid @RequestBody BookParams bookParams);
+	@EventLogId(eventId = 4)
+    void updateBook(@PathVariable("id") Long id, @Valid @RequestBody BookParams bookParams) throws ResourceNotFoundException;	//ahol van Id ott dobhat RNFE-t
+	
 	
 	//DeleteBook
 	@DeleteMapping(BASE_URL_BOOKS + "/{id}")
@@ -84,7 +94,7 @@ final String BASE_URL_BOOKS = "/books";
         @ApiResponse(code = 500, message = "Internal server error") //
     })
     @ResponseStatus(value = HttpStatus.OK)
-	void deleteBook(@PathVariable("id") Long id);
-	
+	@EventLogId(eventId = 5)
+    void deleteBook(@PathVariable("id") Long id) throws ResourceNotFoundException;
 
 }

@@ -36,6 +36,7 @@ import hu.perit.spvitamin.spring.config.SysConfig;
 import hu.perit.spvitamin.spring.rest.api.AuthApi;
 import hu.perit.spvitamin.spring.security.auth.SimpleHttpSecurityBuilder;
 import hu.perit.spvitamin.spring.security.auth.filter.Role2PermissionMapperFilter;
+import hu.perit.wsstepbystep.rest.api.AuthorApi;
 import hu.perit.wsstepbystep.rest.api.BookApi;
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,15 +94,15 @@ public class WebSecurityConfig
                 {
                     CryptoUtil crypto = new CryptoUtil();
                    password = crypto.decrypt(SysConfig.getCryptoProperties().getSecret(), userEntry.getValue().getEncryptedPassword());
-                   log.info("password crypto: " + password);
+               //    log.info("password crypto: " + password);
 
                 } else
                 {
                     password = userEntry.getValue().getPassword();
-                    log.info("password: " + password);
+               //     log.info("password: " + password);
                 }
                 
-                log.info("userEntry: " + userEntry.getKey());
+                //log.info("userEntry: " + userEntry.getKey());
                 auth.inMemoryAuthentication() //
                         .withUser(userEntry.getKey()) //
                         .password(passwordEncoder.encode(password)) //
@@ -138,9 +139,12 @@ public class WebSecurityConfig
         	log.info("call configure() Order2" );
         	
             SimpleHttpSecurityBuilder.newInstance(http) //
-                	.scope(BookApi.BASE_URL_BOOKS + "/**") //
+                	.scope(
+                			BookApi.BASE_URL_BOOKS + "/**", //
+                			AuthorApi.BASE_URL_AUTHORS + "/**") //
                     .authorizeRequests() //
                     .antMatchers(HttpMethod.GET, BookApi.BASE_URL_BOOKS + "/**").hasAuthority(Permissions.BOOK_READ_ACCESS.name()) //
+                    .antMatchers(HttpMethod.GET, AuthorApi.BASE_URL_AUTHORS + "/**").hasAuthority(Permissions.AUTHOR_READ_ACCESS.name()) //
                     .antMatchers(BookApi.BASE_URL_BOOKS + "/**").hasAuthority(Permissions.BOOK_WRITE_ACCESS.name())
                     .anyRequest().denyAll();
 
